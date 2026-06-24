@@ -1,28 +1,31 @@
-# Mischverhältnis-Rechner
+# Mixing Ratio Calculator
 
-Eine einfache, eigenständige Website zum Berechnen von Mischverhältnissen. Du gibst die gewünschte Gesamtmenge und das Mischverhältnis (z. B. `1:25`) an und erhältst sofort die benötigten Mengen von Flüssigkeit 1 und 2.
+A simple, self-contained website for calculating mixing ratios. Enter the desired total amount and the mixing ratio (e.g. `1:25`) and instantly get the required amounts of liquid 1 and 2.
 
-Die gesamte Anwendung steckt in einer einzigen `index.html` – keine Abhängigkeiten, kein Build-Schritt.
+The entire application lives in a single `index.html` — no dependencies, no build step.
 
-## Funktionen
+## Features
 
-- **Mischverhältnis-Berechnung** aus Gesamtmenge und Verhältnis (zwei separate Eingabefelder, z. B. `1` : `25`)
-- **Frei wählbare Nachkommastellen** (0–3)
-- **Zweisprachig** – Deutsch (Standard) und Englisch, per Klick umschaltbar
-- **Dark- und Lightmode** – Darkmode ist Standard
-- **Eingabevalidierung** mit verständlichen Fehlermeldungen
+- **Mixing ratio calculation** from total amount and ratio (two separate input fields, e.g. `1` : `25`)
+- **Adjustable decimal places** (0–3)
+- **Bilingual** — English (default) and German, switchable with one click
+- **Dark and light mode** — dark mode is the default
+- **Input validation** with clear error messages
 
-## Verwendung
+## Usage
 
-`index.html` einfach im Browser öffnen (Doppelklick) – das war's.
+Just open `index.html` in your browser (double-click) — that's it.
 
-## Beispiel
+A hosted version is available here:
+👉 https://johann-github.github.io/mixing-ratio-calculator/
 
-Bei einer Gesamtmenge von `1000` und dem Verhältnis `1:25`:
+## Example
 
-- Flüssigkeit 1: `38,5`
-- Flüssigkeit 2: `961,5`
+For a total amount of `1000` and a ratio of `1:25`:
 
-## Lizenz
+- Liquid 1: `38.5`
+- Liquid 2: `961.5`
 
-Veröffentlicht unter der [MIT-Lizenz](LICENSE).
+## License
+
+Released under the [MIT License](LICENSE).

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mischverhältnis-Rechner</title>
+<title>Mixing Ratio Calculator</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234f8cff' d='M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z'/%3E%3C/svg%3E">
 <style>
   :root {
@@ -191,7 +191,7 @@
 <body>
   <div class="card">
     <div class="topbar">
-      <button id="langBtn">EN</button>
+      <button id="langBtn">DE</button>
       <button id="themeBtn">☀️ Light</button>
     </div>
 
@@ -199,17 +199,17 @@
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
         <path fill="var(--accent)" d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/>
       </svg>
-      <span data-i18n="title">Mischverhältnis-Rechner</span>
+      <span data-i18n="title">Mixing Ratio Calculator</span>
     </h1>
-    <p class="subtitle" data-i18n="subtitle">Berechne, wie viel du von Flüssigkeit 1 und 2 brauchst.</p>
+    <p class="subtitle" data-i18n="subtitle">Calculate how much of liquid 1 and 2 you need.</p>
 
     <div class="field">
-      <label for="total" data-i18n="totalLabel">Gesamtmenge</label>
-      <input type="number" id="total" min="0" step="any" placeholder="z. B. 1000">
+      <label for="total" data-i18n="totalLabel">Total amount</label>
+      <input type="number" id="total" min="0" step="any" placeholder="e.g. 1000">
     </div>
 
     <div class="field">
-      <label data-i18n="ratioLabel">Mischverhältnis</label>
+      <label data-i18n="ratioLabel">Mixing ratio</label>
       <div class="ratio-group">
         <input type="number" id="ratioA" min="0" step="any" placeholder="1">
         <span class="ratio-colon">:</span>
@@ -218,7 +218,7 @@
     </div>
 
     <div class="field">
-      <label for="decimals" data-i18n="decimalsLabel">Nachkommastellen</label>
+      <label for="decimals" data-i18n="decimalsLabel">Decimal places</label>
       <select id="decimals">
         <option value="0">0</option>
         <option value="1" selected>1</option>
@@ -227,17 +227,17 @@
       </select>
     </div>
 
-    <button class="btn-calc" id="calcBtn" data-i18n="calcBtn">Berechnen</button>
+    <button class="btn-calc" id="calcBtn" data-i18n="calcBtn">Calculate</button>
 
     <div class="error" id="error"></div>
 
     <div class="results" id="results">
       <div class="result-row">
-        <span class="name" data-i18n="liquid1">Flüssigkeit 1</span>
+        <span class="name" data-i18n="liquid1">Liquid 1</span>
         <span class="value" id="res1">–</span>
       </div>
       <div class="result-row">
-        <span class="name" data-i18n="liquid2">Flüssigkeit 2</span>
+        <span class="name" data-i18n="liquid2">Liquid 2</span>
         <span class="value" id="res2">–</span>
       </div>
     </div>
@@ -277,7 +277,7 @@
     }
   };
 
-  let lang = "de";
+  let lang = "en";
   let theme = "dark";
 
   const langBtn = document.getElementById("langBtn");
