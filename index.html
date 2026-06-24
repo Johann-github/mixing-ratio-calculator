@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mischverhältnis-Rechner</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%234f8cff' d='M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #1a1d24;
+    --text: #e7e9ee;
+    --muted: #9aa0ac;
+    --border: #2a2e38;
+    --accent: #4f8cff;
+    --accent-soft: rgba(79, 140, 255, 0.12);
+    --result-bg: #161a21;
+  }
+  [data-theme="light"] {
+    --bg: #f4f6fa;
+    --card: #ffffff;
+    --text: #1a1d24;
+    --muted: #5c6270;
+    --border: #e2e6ee;
+    --accent: #2f6fe0;
+    --accent-soft: rgba(47, 111, 224, 0.10);
+    --result-bg: #f0f3f9;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .topbar button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .topbar button:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  h1 {
+    font-size: 22px;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h1 .icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+    transition: border 0.15s ease, box-shadow 0.15s ease;
+  }
+  select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 24px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .field { margin-bottom: 18px; }
+
+  .ratio-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ratio-group input { text-align: center; }
+  .ratio-colon {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border 0.15s ease, box-shadow 0.15s ease;
+  }
+  input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .btn-calc {
+    width: 100%;
+    padding: 13px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .btn-calc:hover { opacity: 0.9; }
+
+  .results {
+    margin-top: 22px;
+    display: none;
+  }
+  .results.show { display: block; }
+
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--result-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .result-row .name { color: var(--muted); font-size: 14px; }
+  .result-row .value { font-size: 18px; font-weight: 600; }
+
+  .error {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-top: 14px;
+    display: none;
+  }
+  .error.show { display: block; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="topbar">
+      <button id="langBtn">EN</button>
+      <button id="themeBtn">☀️ Light</button>
+    </div>
+
+    <h1>
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="var(--accent)" d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/>
+      </svg>
+      <span data-i18n="title">Mischverhältnis-Rechner</span>
+    </h1>
+    <p class="subtitle" data-i18n="subtitle">Berechne, wie viel du von Flüssigkeit 1 und 2 brauchst.</p>
+
+    <div class="field">
+      <label for="total" data-i18n="totalLabel">Gesamtmenge</label>
+      <input type="number" id="total" min="0" step="any" placeholder="z. B. 1000">
+    </div>
+
+    <div class="field">
+      <label data-i18n="ratioLabel">Mischverhältnis</label>
+      <div class="ratio-group">
+        <input type="number" id="ratioA" min="0" step="any" placeholder="1">
+        <span class="ratio-colon">:</span>
+        <input type="number" id="ratioB" min="0" step="any" placeholder="25">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="decimals" data-i18n="decimalsLabel">Nachkommastellen</label>
+      <select id="decimals">
+        <option value="0">0</option>
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+
+    <button class="btn-calc" id="calcBtn" data-i18n="calcBtn">Berechnen</button>
+
+    <div class="error" id="error"></div>
+
+    <div class="results" id="results">
+      <div class="result-row">
+        <span class="name" data-i18n="liquid1">Flüssigkeit 1</span>
+        <span class="value" id="res1">–</span>
+      </div>
+      <div class="result-row">
+        <span class="name" data-i18n="liquid2">Flüssigkeit 2</span>
+        <span class="value" id="res2">–</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const i18n = {
+    de: {
+      title: "Mischverhältnis-Rechner",
+      subtitle: "Berechne, wie viel du von Flüssigkeit 1 und 2 brauchst.",
+      totalLabel: "Gesamtmenge",
+      ratioLabel: "Mischverhältnis",
+      decimalsLabel: "Nachkommastellen",
+      calcBtn: "Berechnen",
+      liquid1: "Flüssigkeit 1",
+      liquid2: "Flüssigkeit 2",
+      errTotal: "Bitte eine gültige Gesamtmenge größer als 0 eingeben.",
+      errRatio: "Bitte ein gültiges Verhältnis im Format 1:25 eingeben.",
+      langBtn: "EN",
+      themeLight: "☀️ Light",
+      themeDark: "🌙 Dark"
+    },
+    en: {
+      title: "Mixing Ratio Calculator",
+      subtitle: "Calculate how much of liquid 1 and 2 you need.",
+      totalLabel: "Total amount",
+      ratioLabel: "Mixing ratio",
+      decimalsLabel: "Decimal places",
+      calcBtn: "Calculate",
+      liquid1: "Liquid 1",
+      liquid2: "Liquid 2",
+      errTotal: "Please enter a valid total amount greater than 0.",
+      errRatio: "Please enter a valid ratio in the format 1:25.",
+      langBtn: "DE",
+      themeLight: "☀️ Light",
+      themeDark: "🌙 Dark"
+    }
+  };
+
+  let lang = "de";
+  let theme = "dark";
+
+  const langBtn = document.getElementById("langBtn");
+  const themeBtn = document.getElementById("themeBtn");
+  const errorEl = document.getElementById("error");
+
+  function t(key) { return i18n[lang][key]; }
+
+  function applyLanguage() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    langBtn.textContent = t("langBtn");
+    updateThemeBtn();
+    // Fehlermeldung neu lokalisieren, falls sichtbar
+    if (errorEl.classList.contains("show") && errorEl.dataset.errkey) {
+      errorEl.textContent = t(errorEl.dataset.errkey);
+    }
+  }
+
+  function updateThemeBtn() {
+    themeBtn.textContent = theme === "dark" ? t("themeLight") : t("themeDark");
+  }
+
+  langBtn.addEventListener("click", () => {
+    lang = lang === "de" ? "en" : "de";
+    applyLanguage();
+  });
+
+  themeBtn.addEventListener("click", () => {
+    theme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    updateThemeBtn();
+  });
+
+  function showError(key) {
+    errorEl.dataset.errkey = key;
+    errorEl.textContent = t(key);
+    errorEl.classList.add("show");
+    document.getElementById("results").classList.remove("show");
+  }
+
+  function fmt(n) {
+    // Auf die gewählte Anzahl Nachkommastellen runden (0–3)
+    const decimals = parseInt(document.getElementById("decimals").value, 10);
+    return n.toLocaleString(lang === "de" ? "de-DE" : "en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  function calculate() {
+    errorEl.classList.remove("show");
+
+    const total = parseFloat(document.getElementById("total").value);
+    const a = parseFloat(document.getElementById("ratioA").value);
+    const b = parseFloat(document.getElementById("ratioB").value);
+
+    if (isNaN(total) || total <= 0) {
+      showError("errTotal");
+      return;
+    }
+
+    if (isNaN(a) || isNaN(b) || a < 0 || b < 0 || (a + b) <= 0) {
+      showError("errRatio");
+      return;
+    }
+
+    const part1 = total * a / (a + b);
+    const part2 = total * b / (a + b);
+
+    document.getElementById("res1").textContent = fmt(part1);
+    document.getElementById("res2").textContent = fmt(part2);
+    document.getElementById("results").classList.add("show");
+  }
+
+  document.getElementById("calcBtn").addEventListener("click", calculate);
+
+  // Bei Änderung der Nachkommastellen neu berechnen, falls bereits ein Ergebnis sichtbar ist
+  document.getElementById("decimals").addEventListener("change", () => {
+    if (document.getElementById("results").classList.contains("show")) {
+      calculate();
+    }
+  });
+
+  // Initialisierung
+  applyLanguage();
+</script>
+</body>
+</html>
